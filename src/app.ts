@@ -1,9 +1,10 @@
 import express from "express";
-import { MongoClient, ServerApiVersion } from "mongodb";
-
 const app = express();
 const uri =
   "mongodb://root:vyF5ciYhcyGwT7sWs6tcnc1f@emiroowdb:27017/my-app?authSource=admin&replicaSet=rs0&directConnection=true";
+
+import { MongoClient, ServerApiVersion } from "mongodb";
+import api from "./routes/api";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -28,9 +29,7 @@ async function run() {
 }
 run().catch(console.dir);
 
-app.route("/test").get((req: any, res: any) => {
-  res.json({ test: "test" });
-});
+app.use(api);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

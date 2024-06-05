@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "todo",
   "main": "app.js",
-  "type": "module",
   "scripts": {
-    "start": "twc && node dist/app.js",
-    "build": "twc",
-    "dev": "nodemon --exec node --no-warnings=ExperimentalWarning --loader ts-node/esm -r dotenv/config --ignore db.json src/app.ts"
+    "start": "node ./dist/server.js",
+    "build": "tsc --build",
+    "dev": "nodemon src/app.ts"
   },
   "author": "",
   "license": "ISC",
