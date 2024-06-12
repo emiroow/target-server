@@ -17,7 +17,6 @@ export const getUsersListController = async (req: Request, res: Response) => {
 };
 
 export const createUserController = async (req: Request, res: Response) => {
-  console.log(req.body);
   const user = await userModel.create(req.body);
   return res.status(201).json({ user, status: true });
 };
