@@ -1,14 +1,8 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
+import { usersRouter } from "./user.api";
 
 const router: Router = Router();
 
-// route.route("/test").get((req: any, res: any) => {
-//   res.json({ test: "test" });
-// });
+router.use("/users", usersRouter);
 
-router.get("/test", (req: Request, res: Response) => {
-  console.log(req);
-  res.json("hello");
-});
-
-export default router;
+export const apiRouter = router;
