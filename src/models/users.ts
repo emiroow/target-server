@@ -1,11 +1,5 @@
 import { model, Model, Schema } from "mongoose";
-
-export interface IUser {
-  _id: string;
-  fullName: string;
-  mobileNumber: number;
-  isActive: boolean;
-}
+import { IUser } from "src/interface/IUser";
 
 const userSchema = new Schema<IUser>({
   fullName: { type: String },
