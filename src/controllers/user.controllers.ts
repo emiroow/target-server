@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userModel } from "../models/users";
+import { userModel } from "../models/user";
 
 export const getUserInfoController = async (req: Request, res: Response) => {
   const { id } = req.params;
