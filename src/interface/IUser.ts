@@ -1,6 +1,7 @@
 export interface IUser {
   _id: string;
   fullName: string;
-  mobileNumber: number;
+  email: string;
+  user: string;
   isActive: boolean;
 }

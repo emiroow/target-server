@@ -1,10 +1,11 @@
 import { model, Model, Schema } from "mongoose";
-import { IUser } from "src/interface/IUser";
+import { IUser } from "../../src/interface/IUser";
 
 const userSchema = new Schema<IUser>({
-  fullName: { type: String },
-  mobileNumber: { type: Number, required: true },
-  isActive: { type: Boolean, default: true },
+  fullName: { type: String, required: true },
+  email: { type: String, required: true },
+  user: { type: String, required: true },
+  isActive: { type: Boolean, default: false },
 });
 
 export const userModel: Model<IUser> = model<IUser>("users", userSchema);

@@ -1,24 +1,19 @@
 import express from "express";
-import mongoose from "mongoose";
+import { notFound } from "../src/middlewares/errorHandler";
+import connectDB from "./config/mongoDB";
+import { apiRouter } from "./routes/api";
 const app = express();
-const uri = process.env.DB_CONNECTION;
 const port = process.env.PORT;
 
-import { apiRouter } from "./routes/api";
+// mongoDB
+connectDB();
 
+// express
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(apiRouter);
 
-app.listen(port, () => {
-  mongoose
-    .connect(uri)
-    .then(() => {
-      console.log("connect to db");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  console.log("Server is running on port 3000");
-});
+app.use(notFound);
+// app.use(errorHandler);
+
+app.listen(port, () => console.log(`Server is running on port ${port}`));
