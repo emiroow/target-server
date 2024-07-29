@@ -1,4 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import { responseHandler } from "../../src/utils/common/responseHandler";
+
+export const notFound = () => {
+  throw new Error("Page Not Found !");
+};
 
 export const errorHandler = (
   err: Error,
@@ -6,17 +11,11 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong" });
-};
-
-export const notFound = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const error = new Error(`Not Found - ${req.originalUrl}`);
-  res.status(404);
-  next(error);
+  return responseHandler({
+    res,
+    responseCode: 500,
+    status: false,
+    massage: err.message,
+    data: { stack: err.stack },
+  });
 };

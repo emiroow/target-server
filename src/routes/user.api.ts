@@ -1,6 +1,6 @@
 import { Router } from "express";
-
 import { getUsersListController } from "../controllers/user.controllers";
+require("express-async-errors");
 
 const router: Router = Router();
 
