@@ -7,7 +7,6 @@ export const registerValidation = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("first");
   try {
     const reqBody = req.body;
     const { error } = userSchema.validate(reqBody);

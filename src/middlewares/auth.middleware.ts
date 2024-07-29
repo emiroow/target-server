@@ -1,12 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { IUser } from "src/interface/IUser";
 import { userModel } from "src/models/user";
-export const checkUserAuthentication = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const checkUserAuthentication = (req: Request, next: NextFunction) => {
   try {
     const Authorization = req.headers.authorization;
     if (!Authorization || !Authorization.includes("Bearer"))
