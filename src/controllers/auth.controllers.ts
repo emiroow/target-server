@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import { IUser } from "../../src/interface/IUser";
 import { userModel } from "../../src/models/user";
 import { responseHandler } from "../../src/utils/common/responseHandler";
@@ -46,10 +47,14 @@ export const loginController = async (req: Request, res: Response) => {
   // Remove the password property
   findUser.password = undefined;
 
+  const userId = findUser._id;
+
+  const token = jwt.sign({ userId }, "emiroow", { expiresIn: "1h" });
+
   return responseHandler({
     res,
     massage: "login successfully",
-    data: { user: findUser, token: "" },
+    data: { user: findUser, token },
     status: true,
     responseCode: 200,
   });

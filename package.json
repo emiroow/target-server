@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./dist/server.js",
     "build": "tsc --build",
-    "dev": "nodemon src/app.ts"
+    "dev": "nodemon -r module-alias/register -r dotenv/config ./src/primary_apm_server.ts"
   },
   "author": "",
   "license": "ISC",

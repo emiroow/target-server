@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const uri = process.env.DB_CONNECTION;
+const uri = process.env.DB_CONNECTION || "";
 
 const connectDB = async (): Promise<void> => {
   try {
