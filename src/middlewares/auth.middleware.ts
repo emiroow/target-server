@@ -1,48 +1,28 @@
 import { NextFunction, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import { IUser } from "../../src/interface/IUser";
 import { userModel } from "../../src/models/user";
 import { request } from "../types/request";
-
+import { verifyJwtToken } from "../utils/helper/token.helper";
 export const checkUserAuthentication = async (
   req: request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const Authorization = req.headers.authorization;
+  const Authorization = req.headers.authorization;
 
-    if (!Authorization || !Authorization.includes("Bearer")) {
-      throw new Error("authentication error !");
-    }
-
-    const jwtToken = Authorization.split("Bearer ")[1];
-
-    const deCodedJwt = jwt.verify(
-      jwtToken,
-      process.env.SECRET_KEY
-    ) as JwtPayload;
-
-    const userId = deCodedJwt._id;
-
-    if (!userId) {
-      throw new Error("authentication error !");
-    }
-
-    const user = (await userModel.findById(userId).lean()) as IUser;
-
-    if (!user) {
-      throw new Error("authentication error !");
-    }
-
-    req.user = user;
-
-    next();
-  } catch (error) {
-    throw new Error("authentication error !");
+  if (!Authorization || !Authorization.includes("Bearer")) {
+    throw new Error("authentication error 1 !");
   }
-};
 
-// interface ExtendedRequest extends Request {
-//   loggedInUser?: IUser;
-// }
+  const jwtToken = Authorization.split("Bearer ")[1];
+
+  const userId = await verifyJwtToken(jwtToken);
+
+  const user = (await userModel.findById(userId).lean()) as IUser;
+
+  if (!user) throw new Error("authentication error !");
+
+  req.user = user;
+
+  next();
+};

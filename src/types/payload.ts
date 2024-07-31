@@ -1,4 +1,4 @@
-import { IUser } from "src/interface/IUser";
+import { IUser } from "interface/IUser";
 
 type Payload = {
   user?: IUser;

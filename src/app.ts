@@ -7,11 +7,13 @@ import connectDB from "./config/mongoDB";
 import { apiRouter } from "./routes/api";
 const app = express();
 const port = process.env.PORT;
+
 // mongoDB
 connectDB();
 
 // express
 app.use(morgan("dev"));
+
 // cors
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));

@@ -27,7 +27,7 @@ export const registerController = async (req: Request, res: Response) => {
   return responseHandler({
     res,
     responseCode: 201,
-    massage: "success",
+    massage: "user create successfully",
     data: newUserObject,
   });
 };
@@ -49,7 +49,7 @@ export const loginController = async (req: Request, res: Response) => {
 
   const userId = findUser._id;
 
-  const token = jwt.sign({ userId }, "emiroow", { expiresIn: "1h" });
+  const token = jwt.sign({ id: userId }, "emiroow", { expiresIn: "1h" });
 
   return responseHandler({
     res,
