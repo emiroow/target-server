@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const userSchema = Joi.object({
+export const loginSchema = Joi.object({
   user: Joi.string().min(4).required().messages({
     "any.required": "user is required felid",
     "string.base": "user most be string",
