@@ -22,7 +22,7 @@ export const loginValidation = async (
     next();
   } catch (error) {
     console.error("Validation error:", error);
-    res.status(500).json({
+    res.status(401).json({
       message: "Internal server error",
     });
   }

@@ -36,13 +36,25 @@ export const loginController = async (req: Request, res: Response) => {
   const { user, password } = req.body;
 
   const findUser = await userModel.findOne({ $or: [{ user }, { password }] });
-  if (!findUser) throw new Error("user notFound !");
+  if (!findUser)
+    return responseHandler({
+      res,
+      massage: "user not found !",
+      status: false,
+      responseCode: 401,
+    });
 
   const checkUserPassword = await hashCompare({
     password,
     hash: findUser.password,
   });
-  if (!checkUserPassword) throw new Error("password is not a correct !");
+  if (!checkUserPassword)
+    return responseHandler({
+      res,
+      massage: "password is not a correct !",
+      status: false,
+      responseCode: 401,
+    });
 
   // Remove the password property
   findUser.password = undefined;

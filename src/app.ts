@@ -22,7 +22,6 @@ app.use("/img", express.static(path.resolve("./public/images")));
 app.use("/api", apiRouter);
 
 app.use(notFound);
-
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
