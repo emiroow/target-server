@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { loginSchema } from "../../src/schemas/login.schema";
 import { responseHandler } from "../../src/utils/common/responseHandler";
+import { loginSchema } from "../schemas/validation/login.schema";
 
 export const loginValidation = async (
   req: Request,
