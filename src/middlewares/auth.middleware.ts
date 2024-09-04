@@ -11,9 +11,8 @@ export const checkUserAuthentication = async (
   const Authorization = req.headers.authorization;
 
   if (!Authorization || !Authorization.includes("Bearer")) {
-    throw new Error("authentication error 1 !");
+    throw new Error("مشکل احرازهویت !");
   }
-
   const jwtToken = Authorization.split("Bearer ")[1];
 
   const userId = await verifyJwtToken(jwtToken);

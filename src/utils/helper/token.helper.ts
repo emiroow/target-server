@@ -12,11 +12,11 @@ export const verifyJwtToken = async (
     return userId;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      throw new Error("JWT token has expired");
+      throw new Error("توکن شما منقضی شده است");
     } else if (error instanceof jwt.JsonWebTokenError) {
-      throw new Error("Invalid JWT token");
+      throw new Error("توکن شما صحیح نمی باشد");
     } else {
-      throw new Error("An error occurred during JWT verification");
+      throw new Error("مشکل در توکن");
     }
   }
 };

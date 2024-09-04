@@ -35,7 +35,9 @@ export const registerController = async (req: Request, res: Response) => {
 export const loginController = async (req: Request, res: Response) => {
   const { user, password } = req.body;
 
-  const findUser = await userModel.findOne({ $or: [{ user }, { password }] });
+  console.log(req.body);
+
+  const findUser = await userModel.findOne({ user });
   if (!findUser)
     return responseHandler({
       res,

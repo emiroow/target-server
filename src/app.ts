@@ -1,3 +1,4 @@
+import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
@@ -15,10 +16,13 @@ connectDB();
 app.use(morgan("dev"));
 
 // cors
+app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "10mb" }));
 app.use(express.json({ limit: "10mb" }));
-app.use("/img", express.static(path.resolve("./public/images")));
+app.use("/images", express.static(path.resolve("./public/images")));
 app.use("/api", apiRouter);
 
 app.use(notFound);
