@@ -1,7 +1,10 @@
+import { Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { responseHandler } from "../../utils/common";
 
 export const verifyJwtToken = async (
-  jwtToken: string
+  jwtToken: string,
+  res: Response
 ): Promise<string | null> => {
   try {
     const deCodedJwt = jwt.verify(
@@ -12,11 +15,26 @@ export const verifyJwtToken = async (
     return userId;
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      throw new Error("توکن شما منقضی شده است");
+      responseHandler({
+        res,
+        massage: "توکن شما منقضی شده است",
+        responseCode: 401,
+        status: false,
+      });
     } else if (error instanceof jwt.JsonWebTokenError) {
-      throw new Error("توکن شما صحیح نمی باشد");
+      responseHandler({
+        res,
+        massage: "توکن شما صحیح نمی باشد",
+        responseCode: 401,
+        status: false,
+      });
     } else {
-      throw new Error("مشکل در توکن");
+      responseHandler({
+        res,
+        massage: "توکن شما صحیح نمی باشد",
+        responseCode: 401,
+        status: false,
+      });
     }
   }
 };

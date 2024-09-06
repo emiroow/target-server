@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express";
 import { IUser } from "../../src/interface/IUser";
 import { userModel } from "../../src/models/user";
 import { request } from "../types/request";
+import { responseHandler } from "../utils";
 import { verifyJwtToken } from "../utils/helper/token.helper";
 export const checkUserAuthentication = async (
   req: request,
@@ -11,11 +12,16 @@ export const checkUserAuthentication = async (
   const Authorization = req.headers.authorization;
 
   if (!Authorization || !Authorization.includes("Bearer")) {
-    throw new Error("مشکل احرازهویت !");
+    return responseHandler({
+      res,
+      massage: "مشکل احرازهویت !",
+      responseCode: 401,
+      status: false,
+    });
   }
   const jwtToken = Authorization.split("Bearer ")[1];
 
-  const userId = await verifyJwtToken(jwtToken);
+  const userId = await verifyJwtToken(jwtToken, res);
 
   const user = (await userModel.findById(userId).lean()) as IUser;
 
