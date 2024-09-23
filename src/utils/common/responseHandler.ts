@@ -4,8 +4,8 @@ export const responseHandler = ({
   res,
   responseCode = 200,
   status = true,
-  data = {},
-  massage = "",
+  data,
+  massage,
 }: {
   res: Response;
   responseCode?: number;

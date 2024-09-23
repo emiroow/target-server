@@ -17,4 +17,6 @@ router.post(
   createBoardController
 );
 
+router.get("/info");
+
 export const boardRouter = router;

@@ -35,15 +35,13 @@ export const registerController = async (req: Request, res: Response) => {
 export const loginController = async (req: Request, res: Response) => {
   const { user, password } = req.body;
 
-  console.log(req.body);
-
   const findUser = await userModel.findOne({ user });
   if (!findUser)
     return responseHandler({
       res,
-      massage: "user not found !",
+      massage: "کاربر یافت نشد !",
       status: false,
-      responseCode: 401,
+      responseCode: 404,
     });
 
   const checkUserPassword = await hashCompare({
@@ -53,9 +51,9 @@ export const loginController = async (req: Request, res: Response) => {
   if (!checkUserPassword)
     return responseHandler({
       res,
-      massage: "password is not a correct !",
+      massage: "رمز عبور صحیح نمی باشد",
       status: false,
-      responseCode: 401,
+      responseCode: 404,
     });
 
   // Remove the password property
@@ -67,7 +65,7 @@ export const loginController = async (req: Request, res: Response) => {
 
   return responseHandler({
     res,
-    massage: "login successfully",
+    massage: "با موفقیت وارد شدید",
     data: { user: findUser, token },
     status: true,
     responseCode: 200,

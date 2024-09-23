@@ -1,5 +1,5 @@
 import { IBoard } from "interface/IBoard";
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 export const boardSchema = new Schema<IBoard>(
   {
@@ -7,6 +7,7 @@ export const boardSchema = new Schema<IBoard>(
     emoji: { type: "String", required: true },
     name: { type: "String", required: true },
     date: { type: Date, default: Date.now() },
+    user: { type: mongoose.Schema.ObjectId, ref: "user", require: true },
   },
   { timestamps: true }
 );

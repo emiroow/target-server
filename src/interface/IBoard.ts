@@ -3,4 +3,5 @@ export interface IBoard {
   emoji: string;
   backgroundImageUrl: string;
   date: Date;
+  user: object;
 }

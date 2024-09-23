@@ -9,7 +9,7 @@ const multerStorage = multer.diskStorage({
   filename: function (req: request, file, cb) {
     let userId = req.user._id;
     let user = req.user.user;
-    cb(null, `${user}-${userId}-${file.originalname}`);
+    cb(null, `${user}-${userId}-${file.originalname.split(" ").join("")}`);
   },
 });
 
@@ -19,15 +19,17 @@ export const uploadMiddleWare = multer({
     const userId = req.user._id;
     const formDataName = req.body.name;
     let user = req.user.user;
-
     const checkFileIsExistInDB = await fileModel.findOne({
-      $or: [{ name: formDataName }, { url: file.originalname }],
+      $or: [
+        { name: formDataName },
+        { url: file.originalname.split(" ").join("") },
+      ],
     });
 
     const filePath = path.join(
       __dirname,
       "../../public/images",
-      `${user}-${userId}-${file.originalname}`
+      `${user}-${userId}-${file.originalname.split(" ").join("")}`
     );
     const checkFileIsExistInFolder = fs.existsSync(filePath);
 
@@ -41,7 +43,7 @@ export const uploadMiddleWare = multer({
         fileModel.create({
           user: userId,
           name: formDataName,
-          url: `${user}-${userId}-${file.originalname}`,
+          url: `${user}-${userId}-${file.originalname}`.split(" ").join(""),
         });
       } else {
         cb(null, false);

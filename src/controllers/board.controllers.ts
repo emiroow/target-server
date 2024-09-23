@@ -4,7 +4,7 @@ import { BoardModel } from "../models/board";
 import { responseHandler } from "../utils/index";
 
 export const getBoardListController = async (req: request, res: Response) => {
-  const boardList = await BoardModel.find();
+  const boardList = await BoardModel.find({ user: req.user._id });
   return responseHandler({
     res,
     data: boardList,
@@ -23,7 +23,9 @@ export const createBoardController = async (req: request, res: Response) => {
     throw new Error("بورد مورد نظر با همچین مشخصاتی وجورد دارد");
   }
 
-  const createBoard = (await BoardModel.create(req.body)).toObject();
+  const createBoard = (
+    await BoardModel.create({ ...req.body, user: req.user._id })
+  ).toObject();
 
   return responseHandler({
     res,
@@ -33,3 +35,5 @@ export const createBoardController = async (req: request, res: Response) => {
     status: true,
   });
 };
+
+export const getInfoBoardController = async (req: request, res: Response) => {};
