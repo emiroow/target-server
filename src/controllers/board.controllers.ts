@@ -5,9 +5,10 @@ import { responseHandler } from "../utils/index";
 
 export const getBoardListController = async (req: request, res: Response) => {
   const boardList = await BoardModel.find({ user: req.user._id });
+
   return responseHandler({
     res,
-    data: boardList,
+    data: { boardList },
     responseCode: 200,
     status: true,
   });
