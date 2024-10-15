@@ -5,7 +5,6 @@ import { responseHandler } from "../utils/index";
 
 export const getBoardListController = async (req: request, res: Response) => {
   const boardList = await BoardModel.find({ user: req.user._id });
-
   return responseHandler({
     res,
     data: { boardList },
@@ -20,6 +19,7 @@ export const createBoardController = async (req: request, res: Response) => {
   const checkIsExistBoard = await BoardModel.findOne({
     $or: [{ name }],
   });
+
   if (checkIsExistBoard) {
     throw new Error("بورد مورد نظر با همچین مشخصاتی وجورد دارد");
   }
