@@ -37,4 +37,24 @@ export const createBoardController = async (req: request, res: Response) => {
   });
 };
 
-export const getInfoBoardController = async (req: request, res: Response) => {};
+export const getBoardInfoController = async (req: request, res: Response) => {
+  const board = req.query.board;
+  if (!board) {
+    throw new Error("مشکل در ارسال آیدی بورد مورد نظر");
+  }
+
+  const findBoard = await BoardModel.findById(board);
+
+  if (!findBoard) {
+    throw new Error("بورد موردنظر یافت نشد");
+  }
+
+  return responseHandler({
+    res,
+    data: findBoard,
+    responseCode: 200,
+    status: true,
+  });
+};
+
+export const updateBoardController = async (req: request, res: Response) => {};
