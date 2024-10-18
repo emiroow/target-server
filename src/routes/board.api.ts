@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createBoardController,
+  deleteBoardController,
   getBoardInfoController,
   getBoardListController,
   updateBoardController,
@@ -21,6 +22,13 @@ router.post(
 
 router.get("/info", checkUserAuthentication, getBoardInfoController);
 
-router.put("/update/:id", checkUserAuthentication, updateBoardController);
+router.put(
+  "/update/:id",
+  checkUserAuthentication,
+  boardValidation,
+  updateBoardController
+);
+
+router.delete("/delete/:id", deleteBoardController);
 
 export const boardRouter = router;

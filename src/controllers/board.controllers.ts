@@ -57,4 +57,45 @@ export const getBoardInfoController = async (req: request, res: Response) => {
   });
 };
 
-export const updateBoardController = async (req: request, res: Response) => {};
+export const updateBoardController = async (req: request, res: Response) => {
+  const board = req.params.id;
+  const bodyData = req.body;
+
+  const findAndUpdate = await BoardModel.findByIdAndUpdate(board, bodyData, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!findAndUpdate) {
+    throw new Error("خطا در ویرایش بورد مورد نظر");
+  }
+
+  return responseHandler({
+    res,
+    data: findAndUpdate,
+    massage: "بورد موردظر شما با موفقیت ویرایش گردید",
+    status: true,
+    responseCode: 200,
+  });
+};
+
+export const deleteBoardController = async (req: request, res: Response) => {
+  const board = req.params.id;
+
+  const findAndDelete = await BoardModel.findByIdAndDelete(board, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!findAndDelete) {
+    throw new Error("خطا در حذف بورد مورد نظر");
+  }
+
+  return responseHandler({
+    res,
+    data: findAndDelete,
+    massage: "بورد موردظر شما با موفقیت حذف گردید",
+    status: true,
+    responseCode: 200,
+  });
+};
