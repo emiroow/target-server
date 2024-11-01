@@ -17,9 +17,9 @@ export const targetSchema = Joi.object({
     "string.empty": "توضیحات نباید خالی باشد",
     "any.required": "توضیحات الزامی است",
   }),
-  icon: Joi.string().required().messages({
-    "string.empty": "آیکون نباید خالی باشد",
-    "any.required": "آیکون الزامی است",
+  emoji: Joi.string().required().messages({
+    "string.empty": "اموجی نباید خالی باشد",
+    "any.required": "اموجی الزامی است",
   }),
   difficulty: Joi.string()
     .valid(...difficultyValues)
@@ -31,4 +31,14 @@ export const targetSchema = Joi.object({
 
       "any.required": "سطح سختی الزامی است",
     }),
-});
+})
+  .unknown(false)
+  .error((errors) => {
+    errors.forEach((err) => {
+      const errorDetail = err as any;
+      if (errorDetail.code === "object.unknown") {
+        errorDetail.message = `فیلد اضافی "${errorDetail.local?.label}" مجاز نیست`;
+      }
+    });
+    return errors;
+  });
