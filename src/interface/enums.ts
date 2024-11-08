@@ -4,7 +4,7 @@ export const TARGET_STATUS = {
 };
 
 export const DIFFICULTY_STATUS = {
-  NORMAL: "normal",
-  MEDIUM: "medium",
-  STANDARD: "standard",
+  HARD: "hard",
+  EASY: "easy",
+  DIFFICULT: "difficult",
 };

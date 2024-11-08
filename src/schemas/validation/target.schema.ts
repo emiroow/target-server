@@ -1,8 +1,7 @@
 import Joi from "joi";
-import { DIFFICULTY_STATUS, TARGET_STATUS } from "../../interface/enums";
+import { DIFFICULTY_STATUS } from "../../interface/enums";
 
 const difficultyValues = Object.values(DIFFICULTY_STATUS);
-const targetValues = Object.values(TARGET_STATUS);
 
 export const targetSchema = Joi.object({
   title: Joi.string().required().messages({
