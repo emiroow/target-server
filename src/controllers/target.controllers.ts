@@ -2,6 +2,7 @@ import { Response } from "express";
 import { request } from "types/request";
 import { BoardModel } from "../models/board";
 import { targetModel } from "../models/target";
+import { targetSchema } from "../schemas/validation/target.schema";
 import { responseHandler } from "../utils";
 
 export const createTargetController = async (req: request, res: Response) => {
@@ -37,6 +38,40 @@ export const createTargetController = async (req: request, res: Response) => {
     responseCode: 201,
     status: true,
   });
+};
+
+export const updateTargetController = async (req: request, res: Response) => {
+  const target = req.params.id;
+  const body = req.body;
+
+  const { error } = targetSchema.validate(body, { abortEarly: true });
+
+  if (error) {
+    responseHandler({
+      res,
+      data: error,
+      massage: error.details[0].message,
+      responseCode: 500,
+      status: false,
+    });
+  }
+
+  try {
+    const findAndUpdate = await targetModel.findByIdAndUpdate(target, body, {
+      new: true,
+      runValidators: true,
+    });
+
+    return responseHandler({
+      res,
+      data: findAndUpdate,
+      massage: "هدف مورد نظر شما با موفقیت ویرایش گردید",
+      responseCode: 200,
+      status: true,
+    });
+  } catch (error) {
+    throw new Error("خطا در ویرایش هدف مورد نظر !");
+  }
 };
 
 export const getTargetList = async (req: request, res: Response) => {
