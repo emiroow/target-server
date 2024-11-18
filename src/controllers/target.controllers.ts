@@ -83,3 +83,23 @@ export const getTargetList = async (req: request, res: Response) => {
 
   return responseHandler({ res, data: list, responseCode: 200, status: true });
 };
+
+export const getTargetInfoController = async (req: request, res: Response) => {
+  const target = req.query.id;
+  if (!target) {
+    throw new Error("مشکل در ارسال آیدی بورد مورد نظر");
+  }
+
+  const findTraget = await BoardModel.findById(target);
+
+  if (!findTraget) {
+    throw new Error("بورد موردنظر یافت نشد");
+  }
+
+  return responseHandler({
+    res,
+    data: findTraget,
+    responseCode: 200,
+    status: true,
+  });
+};
