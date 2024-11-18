@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { request } from "types/request";
 import { BoardModel } from "../models/board";
+import { boardSchema } from "../schemas/validation/board.schema";
 import { responseHandler } from "../utils/index";
 
 export const getBoardListController = async (req: request, res: Response) => {
@@ -61,22 +62,33 @@ export const updateBoardController = async (req: request, res: Response) => {
   const board = req.params.id;
   const bodyData = req.body;
 
-  const findAndUpdate = await BoardModel.findByIdAndUpdate(board, bodyData, {
-    new: true,
-    runValidators: true,
-  });
+  const { error } = boardSchema.validate(bodyData, { abortEarly: true });
 
-  if (!findAndUpdate) {
-    throw new Error("خطا در ویرایش بورد مورد نظر");
+  if (error) {
+    responseHandler({
+      res,
+      data: error,
+      massage: error.details[0].message,
+      responseCode: 500,
+      status: false,
+    });
   }
 
-  return responseHandler({
-    res,
-    data: findAndUpdate,
-    massage: "بورد موردظر شما با موفقیت ویرایش گردید",
-    status: true,
-    responseCode: 200,
-  });
+  try {
+    const findAndUpdate = await BoardModel.findByIdAndUpdate(board, bodyData, {
+      new: true,
+      runValidators: true,
+    });
+    return responseHandler({
+      res,
+      data: findAndUpdate,
+      massage: "بورد موردظر شما با موفقیت ویرایش گردید",
+      status: true,
+      responseCode: 200,
+    });
+  } catch (error) {
+    throw new Error("خطا در ویرایش بورد مورد نظر");
+  }
 };
 
 export const deleteBoardController = async (req: request, res: Response) => {
