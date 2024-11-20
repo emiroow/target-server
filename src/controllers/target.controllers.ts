@@ -8,7 +8,7 @@ import { responseHandler } from "../utils";
 export const createTargetController = async (req: request, res: Response) => {
   const { title, subTitle, description } = req.body;
   const user = req.user._id;
-  const board = req.query.board;
+  const board = req.params.board;
 
   if (!board) {
     throw new Error("Board Id is required filed in query Params !");
@@ -85,15 +85,15 @@ export const getTargetList = async (req: request, res: Response) => {
 };
 
 export const getTargetInfoController = async (req: request, res: Response) => {
-  const target = req.query.id;
+  const target = req.params.id;
   if (!target) {
     throw new Error("مشکل در ارسال آیدی بورد مورد نظر");
   }
 
-  const findTraget = await BoardModel.findById(target);
+  const findTraget = await targetModel.findById(target).populate("board");
 
   if (!findTraget) {
-    throw new Error("بورد موردنظر یافت نشد");
+    throw new Error("تارگت موردنظر یافت نشد");
   }
 
   return responseHandler({
