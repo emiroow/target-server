@@ -8,7 +8,7 @@ import { responseHandler } from "../utils";
 export const createTargetController = async (req: request, res: Response) => {
   const { title, subTitle, description } = req.body;
   const user = req.user._id;
-  const board = req.params.board;
+  const board = req.query.board;
 
   if (!board) {
     throw new Error("Board Id is required filed in query Params !");
@@ -102,4 +102,23 @@ export const getTargetInfoController = async (req: request, res: Response) => {
     responseCode: 200,
     status: true,
   });
+};
+
+export const deleteTargetController = async (req: request, res: Response) => {
+  const target = req.params.id;
+  try {
+    const findAndDelete = await targetModel.findByIdAndDelete(target, {
+      new: true,
+      runValidators: true,
+    });
+    return responseHandler({
+      res,
+      data: findAndDelete,
+      massage: "هدف موردظر شما با موفقیت حذف گردید",
+      status: true,
+      responseCode: 200,
+    });
+  } catch (error) {
+    throw new Error("خطا در حذف هدف مورد نظر");
+  }
 };

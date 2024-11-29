@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createTargetController,
+  deleteTargetController,
   getTargetInfoController,
   getTargetList,
   updateTargetController,
@@ -23,6 +24,6 @@ router.get("/info/:id", checkUserAuthentication, getTargetInfoController);
 
 router.put("/update/:id", checkUserAuthentication, updateTargetController);
 
-router.delete("/delete/:id", checkUserAuthentication);
+router.delete("/delete/:id", checkUserAuthentication, deleteTargetController);
 
 export const targetRouter = router;

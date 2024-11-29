@@ -6,7 +6,6 @@ export const targetSchema = new Schema(
     title: { type: String, require: true },
     subTitle: { type: String, require: true },
     description: { type: String, require: true },
-    // lastTargetHistory: { type: array },
     emoji: { type: String, require: true },
     totalTodo: { type: Number, default: 0 },
     totalDoneTodo: { type: Number, default: 0 },
@@ -23,6 +22,11 @@ export const targetSchema = new Schema(
       enum: Object.values(DIFFICULTY_STATUS),
       require: true,
     },
+    // lastTargetHistory: {
+    //   type: mongoose.Schema.ObjectId,
+    //   ref: "",
+    //   require: false,
+    // },
   },
   {
     timestamps: true,
