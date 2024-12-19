@@ -86,6 +86,7 @@ export const getTargetList = async (req: request, res: Response) => {
 
 export const getTargetInfoController = async (req: request, res: Response) => {
   const target = req.params.id;
+
   if (!target) {
     throw new Error("مشکل در ارسال آیدی بورد مورد نظر");
   }

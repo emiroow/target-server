@@ -18,7 +18,9 @@ router.post(
   taskValidation,
   createTasksController
 );
+
 router.put("/update/:id", checkUserAuthentication, updateTasksController);
+
 router.delete("/delete/:id", checkUserAuthentication, deleteTasksController);
 
 export const taskRouter = router;

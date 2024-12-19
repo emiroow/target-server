@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { targetModel } from "../models/target";
 import { TaskModel } from "../models/task";
 import { request } from "../types/request";
 import { responseHandler } from "../utils";
@@ -51,6 +52,27 @@ export const createTasksController = async (req: request, res: Response) => {
     target,
   });
 
+  const totalDoneTodo = await TaskModel.find({
+    target,
+    checked: true,
+  }).countDocuments();
+
+  const totalTodo = await TaskModel.find({
+    target,
+  }).countDocuments();
+
+  const totalPendingTodo = await TaskModel.find({
+    target,
+    checked: false,
+  }).countDocuments();
+
+  await targetModel.findByIdAndUpdate(target, {
+    totalDoneTodo,
+    totalTodo,
+    totalPendingTodo,
+    status: totalPendingTodo === 0 ? "finished" : "pending",
+  });
+
   return responseHandler({
     res,
     data: createdTask,
@@ -59,5 +81,58 @@ export const createTasksController = async (req: request, res: Response) => {
     status: true,
   });
 };
-export const updateTasksController = async (req: request, res: Response) => {};
+
+export const updateTasksController = async (req: request, res: Response) => {
+  const taskId = req.params.id;
+  const body = req.body;
+
+  if (!body || !taskId) {
+    throw new Error("خطا در ارسال اطلاعات !");
+  }
+
+  try {
+    const findAndUpdateTask = await TaskModel.findByIdAndUpdate(
+      taskId,
+      body
+    ).populate("target");
+
+    const totalDoneTodo = await TaskModel.find({
+      target: findAndUpdateTask.target._id,
+      checked: true,
+    }).countDocuments();
+
+    const totalTodo = await TaskModel.find({
+      target: findAndUpdateTask.target._id,
+    }).countDocuments();
+
+    const totalPendingTodo = await TaskModel.find({
+      target: findAndUpdateTask.target._id,
+      checked: false,
+    }).countDocuments();
+
+    await targetModel.findByIdAndUpdate(findAndUpdateTask.target._id, {
+      totalDoneTodo,
+      totalTodo,
+      totalPendingTodo,
+      status: totalPendingTodo === 0 ? "finished" : "pending",
+    });
+
+    return responseHandler({
+      res,
+      data: findAndUpdateTask,
+      massage: "وضعیت هدف شما تغییر کرد",
+      responseCode: 200,
+      status: true,
+    });
+  } catch (error) {
+    return responseHandler({
+      res,
+      data: error,
+      massage: "خطا در سرویس !",
+      responseCode: 500,
+      status: true,
+    });
+  }
+};
+
 export const deleteTasksController = async (req: request, res: Response) => {};

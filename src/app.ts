@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(express.json({ limit: "10mb" }));
 app.use("/images", express.static(path.resolve("./public/images")));
+// api
 app.use("/api", apiRouter);
 
 app.use(notFound);
