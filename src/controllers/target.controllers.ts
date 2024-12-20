@@ -96,7 +96,6 @@ export const getTargetInfoController = async (req: request, res: Response) => {
   if (!findTraget) {
     throw new Error("تارگت موردنظر یافت نشد");
   }
-
   return responseHandler({
     res,
     data: findTraget,
@@ -106,12 +105,22 @@ export const getTargetInfoController = async (req: request, res: Response) => {
 };
 
 export const deleteTargetController = async (req: request, res: Response) => {
-  const target = req.params.id;
+  const target = req.params?.id;
+
   try {
+    const { board } = await targetModel.findById(target).populate("board");
+
     const findAndDelete = await targetModel.findByIdAndDelete(target, {
       new: true,
       runValidators: true,
     });
+
+    const totalTargets = await targetModel
+      .find({ board: board._id })
+      .countDocuments();
+
+    await BoardModel.findByIdAndUpdate(board._id, { totalTargets });
+
     return responseHandler({
       res,
       data: findAndDelete,
