@@ -91,14 +91,14 @@ export const getTargetInfoController = async (req: request, res: Response) => {
     throw new Error("مشکل در ارسال آیدی بورد مورد نظر");
   }
 
-  const findTraget = await targetModel.findById(target).populate("board");
+  const findTarget = await targetModel.findById(target).populate("board");
 
-  if (!findTraget) {
+  if (!findTarget) {
     throw new Error("تارگت موردنظر یافت نشد");
   }
   return responseHandler({
     res,
-    data: findTraget,
+    data: findTarget,
     responseCode: 200,
     status: true,
   });
