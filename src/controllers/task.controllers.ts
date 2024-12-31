@@ -91,6 +91,20 @@ export const updateTasksController = async (req: request, res: Response) => {
   }
 
   try {
+    const checkTaskIsExist = await TaskModel.findOne({
+      title: body.title,
+    });
+
+    if (checkTaskIsExist) {
+      return responseHandler({
+        res,
+        data: checkTaskIsExist,
+        massage: "هدف مورد نظر باهمچین اطلاعاتی وجود دارد !",
+        responseCode: 500,
+        status: true,
+      });
+    }
+
     const findAndUpdateTask = await TaskModel.findByIdAndUpdate(
       taskId,
       body
@@ -135,4 +149,23 @@ export const updateTasksController = async (req: request, res: Response) => {
   }
 };
 
-export const deleteTasksController = async (req: request, res: Response) => {};
+export const deleteTasksController = async (req: request, res: Response) => {
+  const task = req.params?.id;
+
+  try {
+    // const findAndDelete = await TaskModel.findByIdAndDelete(task, {
+    //   new: true,
+    //   runValidators: true,
+    // });
+
+    return responseHandler({
+      res,
+      data: {},
+      massage: "هدف موردظر شما با موفقیت حذف گردید",
+      status: true,
+      responseCode: 200,
+    });
+  } catch (error) {
+    throw new Error("خطا در حذف هدف مورد نظر");
+  }
+};
