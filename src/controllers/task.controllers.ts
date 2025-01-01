@@ -150,17 +150,37 @@ export const updateTasksController = async (req: request, res: Response) => {
 };
 
 export const deleteTasksController = async (req: request, res: Response) => {
-  const task = req.params?.id;
+  const taskId = req.params?.id;
 
   try {
-    // const findAndDelete = await TaskModel.findByIdAndDelete(task, {
-    //   new: true,
-    //   runValidators: true,
-    // });
+    const findAndDeleteTask = await TaskModel.findByIdAndDelete(taskId, {
+      new: true,
+      runValidators: true,
+    }).populate("target");
 
+    const totalDoneTodo = await TaskModel.find({
+      target: findAndDeleteTask.target._id,
+      checked: true,
+    }).countDocuments();
+
+    const totalTodo = await TaskModel.find({
+      target: findAndDeleteTask.target._id,
+    }).countDocuments();
+
+    const totalPendingTodo = await TaskModel.find({
+      target: findAndDeleteTask.target._id,
+      checked: false,
+    }).countDocuments();
+
+    await targetModel.findByIdAndUpdate(findAndDeleteTask.target._id, {
+      totalDoneTodo,
+      totalTodo,
+      totalPendingTodo,
+      status: totalPendingTodo === 0 ? "finished" : "pending",
+    });
     return responseHandler({
       res,
-      data: {},
+      data: findAndDeleteTask,
       massage: "هدف موردظر شما با موفقیت حذف گردید",
       status: true,
       responseCode: 200,
