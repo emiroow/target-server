@@ -45,11 +45,15 @@ export const createTasksController = async (req: request, res: Response) => {
     throw new Error("هدف مورد نظر باهمچین اطلاعاتی وجود دارد !");
   }
 
+  // find board Id
+  const { board } = await targetModel.findById(target);
+
   const createdTask = await TaskModel.create({
     ...body,
     checked: false,
     user,
     target,
+    board,
   });
 
   const totalDoneTodo = await TaskModel.find({

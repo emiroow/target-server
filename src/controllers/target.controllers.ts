@@ -2,6 +2,7 @@ import { Response } from "express";
 import { request } from "types/request";
 import { BoardModel } from "../models/board";
 import { targetModel } from "../models/target";
+import { TaskModel } from "../models/task";
 import { targetSchema } from "../schemas/validation/target.schema";
 import { responseHandler } from "../utils";
 
@@ -110,6 +111,9 @@ export const deleteTargetController = async (req: request, res: Response) => {
   try {
     const { board } = await targetModel.findById(target).populate("board");
 
+    // nested delete
+    await TaskModel.deleteMany({ target });
+
     const findAndDelete = await targetModel.findByIdAndDelete(target, {
       new: true,
       runValidators: true,
@@ -123,7 +127,7 @@ export const deleteTargetController = async (req: request, res: Response) => {
 
     return responseHandler({
       res,
-      data: findAndDelete,
+      data: { findAndDelete },
       massage: "هدف موردظر شما با موفقیت حذف گردید",
       status: true,
       responseCode: 200,

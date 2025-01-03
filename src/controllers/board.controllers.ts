@@ -1,6 +1,8 @@
 import { Response } from "express";
 import { request } from "types/request";
 import { BoardModel } from "../models/board";
+import { targetModel } from "../models/target";
+import { TaskModel } from "../models/task";
 import { boardSchema } from "../schemas/validation/board.schema";
 import { responseHandler } from "../utils/index";
 
@@ -94,6 +96,11 @@ export const updateBoardController = async (req: request, res: Response) => {
 export const deleteBoardController = async (req: request, res: Response) => {
   const board = req.params.id;
 
+  // nested delete
+  await TaskModel.deleteMany({ board });
+  await targetModel.deleteMany({ board });
+
+  // delete board
   const findAndDelete = await BoardModel.findByIdAndDelete(board, {
     new: true,
     runValidators: true,

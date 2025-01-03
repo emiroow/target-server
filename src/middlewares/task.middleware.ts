@@ -10,9 +10,6 @@ export const taskMiddleware = async (
 ) => {
   const { method, params, body } = req;
 
-  console.log(method);
-  console.log(params);
-
   try {
     const findTask = await TaskModel.findById(params.id).populate({
       path: "target",

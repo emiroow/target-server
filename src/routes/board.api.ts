@@ -29,6 +29,6 @@ router.put(
   updateBoardController
 );
 
-router.delete("/delete/:id", deleteBoardController);
+router.delete("/delete/:id", checkUserAuthentication, deleteBoardController);
 
 export const boardRouter = router;
