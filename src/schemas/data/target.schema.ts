@@ -22,14 +22,11 @@ export const targetSchema = new Schema(
       enum: Object.values(DIFFICULTY_STATUS),
       require: true,
     },
-    // lastTargetHistory: {
-    //   type: mongoose.Schema.ObjectId,
-    //   ref: "",
-    //   require: false,
-    // },
   },
   {
     timestamps: true,
     strict: true,
+    toJSON: { virtuals: true }, // Include virtuals when converting to JSON
+    toObject: { virtuals: true }, // Include virtuals when converting to plain objects
   }
 );

@@ -80,7 +80,7 @@ export const getTargetList = async (req: request, res: Response) => {
   if (!board) {
     throw new Error("خطا در اطلاعات بورد مورد نظر !");
   }
-  const list = await targetModel.find({ board }).populate("board");
+  const list = await targetModel.find({ board }).populate("lastTargetHistory");
 
   return responseHandler({ res, data: list, responseCode: 200, status: true });
 };
