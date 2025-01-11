@@ -21,6 +21,7 @@
   },
   "typeRoots": ["./node_modules/@types", "./src/types"],
   "include": ["src/**/*", "src"],
+  "exclude": ["node_modules", "dist"],
   "ts-node": {
     "swc": false
   }
