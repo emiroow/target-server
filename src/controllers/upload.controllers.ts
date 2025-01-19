@@ -1,14 +1,13 @@
-import { Response } from "express";
-import { fileModel } from "../models/file";
-import { request } from "../types/request";
-import { responseHandler } from "../utils";
+import { fileModel } from "@models/file";
+import { responseHandler } from "@utils/common/responseHandler";
+import { Request, Response } from "express";
 
-export const createUploadController = async (req: request, res: Response) => {
+export const createUploadController = async (req: Request, res: Response) => {
   const userId = req.user._id;
   const formDataName = req.body.name;
   let user = req.user.user;
   if (req.file) {
-    return responseHandler({
+    responseHandler({
       res,
       data: {
         name: formDataName,
@@ -21,9 +20,9 @@ export const createUploadController = async (req: request, res: Response) => {
   }
 };
 
-export const getUploadListController = async (req: request, res: Response) => {
+export const getUploadListController = async (req: Request, res: Response) => {
   const uploadList = await fileModel.find({ user: req.user._id });
-  return responseHandler({
+  responseHandler({
     res,
     data: uploadList,
     status: true,

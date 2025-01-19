@@ -1,5 +1,5 @@
+import { targetSchema } from "@schemas/data/target.schema";
 import { model, Model } from "mongoose";
-import { targetSchema } from "../schemas/data/target.schema";
 
 targetSchema.virtual("lastTargetHistory", {
   ref: "task",

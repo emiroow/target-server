@@ -1,10 +1,9 @@
-import { Response } from "express";
-import { targetModel } from "../models/target";
-import { TaskModel } from "../models/task";
-import { request } from "../types/request";
-import { responseHandler } from "../utils";
+import { targetModel } from "@models/target";
+import { TaskModel } from "@models/task";
+import { responseHandler } from "@utils/common/responseHandler";
+import { Request, Response } from "express";
 
-export const getTasksController = async (req: request, res: Response) => {
+export const getTasksController = async (req: Request, res: Response) => {
   const user = req.user._id;
   const target = req.query.target;
 
@@ -16,7 +15,7 @@ export const getTasksController = async (req: request, res: Response) => {
     "target"
   );
 
-  return responseHandler({
+  responseHandler({
     res,
     data: findUserTasks,
     responseCode: 200,
@@ -24,7 +23,7 @@ export const getTasksController = async (req: request, res: Response) => {
   });
 };
 
-export const createTasksController = async (req: request, res: Response) => {
+export const createTasksController = async (req: Request, res: Response) => {
   const user = req.user._id;
   const target = req.params.id;
   const body = req.body;
@@ -77,7 +76,7 @@ export const createTasksController = async (req: request, res: Response) => {
     status: totalPendingTodo === 0 ? "finished" : "pending",
   });
 
-  return responseHandler({
+  responseHandler({
     res,
     data: createdTask,
     massage: "هدف مورد نظر ایجاد گردید",
@@ -86,7 +85,7 @@ export const createTasksController = async (req: request, res: Response) => {
   });
 };
 
-export const updateTasksController = async (req: request, res: Response) => {
+export const updateTasksController = async (req: Request, res: Response) => {
   const taskId = req.params.id;
   const body = req.body;
 
@@ -100,7 +99,7 @@ export const updateTasksController = async (req: request, res: Response) => {
     });
 
     if (checkTaskIsExist) {
-      return responseHandler({
+      responseHandler({
         res,
         data: checkTaskIsExist,
         massage: "هدف مورد نظر باهمچین اطلاعاتی وجود دارد !",
@@ -134,8 +133,7 @@ export const updateTasksController = async (req: request, res: Response) => {
       totalPendingTodo,
       status: totalPendingTodo === 0 ? "finished" : "pending",
     });
-
-    return responseHandler({
+    responseHandler({
       res,
       data: findAndUpdateTask,
       massage: "وضعیت هدف شما تغییر کرد",
@@ -143,7 +141,7 @@ export const updateTasksController = async (req: request, res: Response) => {
       status: true,
     });
   } catch (error) {
-    return responseHandler({
+    responseHandler({
       res,
       data: error,
       massage: "خطا در سرویس !",
@@ -153,7 +151,7 @@ export const updateTasksController = async (req: request, res: Response) => {
   }
 };
 
-export const deleteTasksController = async (req: request, res: Response) => {
+export const deleteTasksController = async (req: Request, res: Response) => {
   const taskId = req.params?.id;
 
   try {
@@ -182,7 +180,7 @@ export const deleteTasksController = async (req: request, res: Response) => {
       totalPendingTodo,
       status: totalPendingTodo === 0 ? "finished" : "pending",
     });
-    return responseHandler({
+    responseHandler({
       res,
       data: findAndDeleteTask,
       massage: "هدف موردظر شما با موفقیت حذف گردید",

@@ -3,10 +3,23 @@
     "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "src",
+    "types": ["node", "express"],
+    "baseUrl": "./src",
     "paths": {
-      "src/*": ["src/*"]
+      "@config/*": ["config/*"],
+      "@controllers/*": ["controllers/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@interface/*": ["interface/*"],
+      "@models/*": ["models/*"],
+      "@routes/*": ["routes/*"],
+      "@schemas/*": ["schemas/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+      "@common/*": ["utils/common/*"],
+      "@helper/*": ["utils/helper/*"],
+      "@validations/*": ["validations/*"]
     },
+    "noImplicitReturns": true,
     "resolveJsonModule": true,
     "rootDir": "./src",
     "allowJs": true,
@@ -17,10 +30,10 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "typeRoots": ["./node_modules/@types", "./src/types"],
-  "include": ["src/**/*", "src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"],
   "ts-node": {
     "swc": false

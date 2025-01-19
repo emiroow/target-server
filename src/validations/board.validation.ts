@@ -1,6 +1,6 @@
+import { boardSchema } from "@schemas/validation/board.schema";
+import { responseHandler } from "@utils/common/responseHandler";
 import { NextFunction, Request, Response } from "express";
-import { boardSchema } from "../schemas/validation/board.schema";
-import { responseHandler } from "../utils";
 
 export const boardValidation = async (
   req: Request,
@@ -11,7 +11,7 @@ export const boardValidation = async (
     const reqBody = req.body;
     const { error } = boardSchema.validate(reqBody);
     if (error) {
-      return responseHandler({
+      responseHandler({
         res,
         massage: error?.details[0]?.message,
         status: false,

@@ -1,5 +1,5 @@
+import { DIFFICULTY_STATUS } from "@interface/enums";
 import Joi from "joi";
-import { DIFFICULTY_STATUS } from "../../interface/enums";
 
 const difficultyValues = Object.values(DIFFICULTY_STATUS);
 

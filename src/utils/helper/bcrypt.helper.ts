@@ -21,10 +21,13 @@ export const hashCompare = async ({
 }: {
   hash: string;
   password: string;
-}) => {
+}): Promise<boolean> => {
   try {
-    return bcrypt.compare(password, hash);
+    // انتظار داریم که bcrypt.compare یک Promise<boolean> برگشت دهد
+    const result = await bcrypt.compare(password, hash);
+    return result;
   } catch (error) {
-    if (error) throw new Error("hashCompare failed !");
+    console.error("hashCompare failed: ", error);
+    throw new Error("hashCompare failed!");
   }
 };

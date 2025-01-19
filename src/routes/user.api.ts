@@ -1,9 +1,9 @@
-import { Router } from "express";
-import { checkUserAuthentication } from "../../src/middlewares/auth.middleware";
 import {
   getUserInfoController,
   getUsersListController,
-} from "../controllers/user.controllers";
+} from "@controllers/user.controllers";
+import { checkUserAuthentication } from "@middlewares/auth.middleware";
+import { Router } from "express";
 require("express-async-errors");
 
 const router: Router = Router();

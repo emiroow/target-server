@@ -1,12 +1,11 @@
-import { Response } from "express";
-import { request } from "types/request";
-import { BoardModel } from "../models/board";
-import { targetModel } from "../models/target";
-import { TaskModel } from "../models/task";
-import { targetSchema } from "../schemas/validation/target.schema";
-import { responseHandler } from "../utils";
+import { BoardModel } from "@models/board";
+import { targetModel } from "@models/target";
+import { TaskModel } from "@models/task";
+import { targetSchema } from "@schemas/validation/target.schema";
+import { responseHandler } from "@utils/common/responseHandler";
+import { Request, Response } from "express";
 
-export const createTargetController = async (req: request, res: Response) => {
+export const createTargetController = async (req: Request, res: Response) => {
   const { title, subTitle, description } = req.body;
   const user = req.user._id;
   const board = req.query.board;
@@ -32,7 +31,7 @@ export const createTargetController = async (req: request, res: Response) => {
 
   await BoardModel.findByIdAndUpdate(board, { totalTargets });
 
-  return responseHandler({
+  responseHandler({
     res,
     data: createdData,
     massage: "هدف مورد نظر ایجاد گردید",
@@ -41,7 +40,7 @@ export const createTargetController = async (req: request, res: Response) => {
   });
 };
 
-export const updateTargetController = async (req: request, res: Response) => {
+export const updateTargetController = async (req: Request, res: Response) => {
   const target = req.params.id;
   const body = req.body;
 
@@ -63,7 +62,7 @@ export const updateTargetController = async (req: request, res: Response) => {
       runValidators: true,
     });
 
-    return responseHandler({
+    responseHandler({
       res,
       data: findAndUpdate,
       massage: "هدف مورد نظر شما با موفقیت ویرایش گردید",
@@ -75,17 +74,17 @@ export const updateTargetController = async (req: request, res: Response) => {
   }
 };
 
-export const getTargetList = async (req: request, res: Response) => {
+export const getTargetList = async (req: Request, res: Response) => {
   const board = req.query.board;
   if (!board) {
     throw new Error("خطا در اطلاعات بورد مورد نظر !");
   }
   const list = await targetModel.find({ board }).populate("lastTargetHistory");
 
-  return responseHandler({ res, data: list, responseCode: 200, status: true });
+  responseHandler({ res, data: list, responseCode: 200, status: true });
 };
 
-export const getTargetInfoController = async (req: request, res: Response) => {
+export const getTargetInfoController = async (req: Request, res: Response) => {
   const target = req.params.id;
 
   if (!target) {
@@ -97,7 +96,7 @@ export const getTargetInfoController = async (req: request, res: Response) => {
   if (!findTarget) {
     throw new Error("تارگت موردنظر یافت نشد");
   }
-  return responseHandler({
+  responseHandler({
     res,
     data: findTarget,
     responseCode: 200,
@@ -105,7 +104,7 @@ export const getTargetInfoController = async (req: request, res: Response) => {
   });
 };
 
-export const deleteTargetController = async (req: request, res: Response) => {
+export const deleteTargetController = async (req: Request, res: Response) => {
   const target = req.params?.id;
 
   try {
@@ -125,7 +124,7 @@ export const deleteTargetController = async (req: request, res: Response) => {
 
     await BoardModel.findByIdAndUpdate(board._id, { totalTargets });
 
-    return responseHandler({
+    responseHandler({
       res,
       data: { findAndDelete },
       massage: "هدف موردظر شما با موفقیت حذف گردید",

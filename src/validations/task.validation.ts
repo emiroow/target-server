@@ -1,6 +1,6 @@
+import { taskSchema } from "@schemas/validation/task.schema";
+import { responseHandler } from "@utils/common/responseHandler";
 import { NextFunction, Request, Response } from "express";
-import { taskSchema } from "../schemas/validation/task.schema";
-import { responseHandler } from "../utils/common/responseHandler";
 
 export const taskValidation = async (
   req: Request,
@@ -11,7 +11,7 @@ export const taskValidation = async (
     const reqBody = req.body;
     const { error } = taskSchema.validate(reqBody);
     if (error) {
-      return responseHandler({
+      responseHandler({
         res,
         massage: error?.details[0]?.message,
         status: false,

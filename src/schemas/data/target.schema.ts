@@ -1,5 +1,5 @@
+import { DIFFICULTY_STATUS, TARGET_STATUS } from "@interface/enums";
 import mongoose, { Schema } from "mongoose";
-import { DIFFICULTY_STATUS, TARGET_STATUS } from "../../interface/enums";
 
 export const targetSchema = new Schema(
   {

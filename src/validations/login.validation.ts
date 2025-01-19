@@ -1,28 +1,30 @@
+import { loginSchema } from "@schemas/validation/login.schema";
+import { responseHandler } from "@utils/common/responseHandler";
 import { NextFunction, Request, Response } from "express";
-import { responseHandler } from "../../src/utils/common/responseHandler";
-import { loginSchema } from "../schemas/validation/login.schema";
 
 export const loginValidation = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const reqBody = req.body;
     const { error } = loginSchema.validate(reqBody);
+
     if (error) {
-      return responseHandler({
+      responseHandler({
         res,
-        massage: error?.details[0]?.message,
+        massage: error?.details[0]?.message || "Validation error",
         status: false,
         responseCode: 401,
         data: error?.details,
       });
     }
-    next();
-  } catch (error) {
-    console.error("Validation error:", error);
-    res.status(401).json({
+
+    next(); // اگر اعتبارسنجی موفق بود، به متد بعدی بروید
+  } catch (err) {
+    console.error("Validation error:", err);
+    res.status(500).json({
       message: "Internal server error",
     });
   }

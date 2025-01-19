@@ -1,10 +1,11 @@
-import { Router } from "express";
 import {
   loginController,
   registerController,
-} from "../../src/controllers/auth.controllers";
-import { loginValidation } from "../../src/validations/login.validation";
-import { registerValidation } from "../../src/validations/register.validation";
+} from "@controllers/auth.controllers";
+import { loginValidation } from "@validations/login.validation";
+import { registerValidation } from "@validations/register.validation";
+import { Router } from "express";
+
 require("express-async-errors");
 
 const router: Router = Router();

@@ -1,12 +1,14 @@
-import { Router } from "express";
 import {
   createTasksController,
   deleteTasksController,
   getTasksController,
   updateTasksController,
-} from "../controllers/task.controllers";
-import { checkUserAuthentication } from "../middlewares/auth.middleware";
-import { taskValidation } from "../validations/task.validation";
+} from "@controllers/task.controllers";
+import { checkUserAuthentication } from "@middlewares/auth.middleware";
+import { taskValidation } from "@validations/task.validation";
+require("express-async-errors");
+
+import { Router } from "express";
 
 const router = Router();
 

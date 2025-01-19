@@ -1,4 +1,4 @@
-import { IBoard } from "interface/IBoard";
+import { IBoard } from "@interface/IBoard";
 import mongoose, { Schema } from "mongoose";
 
 export const boardSchema = new Schema<IBoard>(

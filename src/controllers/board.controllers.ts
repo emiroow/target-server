@@ -1,14 +1,13 @@
-import { Response } from "express";
-import { request } from "types/request";
-import { BoardModel } from "../models/board";
-import { targetModel } from "../models/target";
-import { TaskModel } from "../models/task";
-import { boardSchema } from "../schemas/validation/board.schema";
-import { responseHandler } from "../utils/index";
+import { BoardModel } from "@models/board";
+import { targetModel } from "@models/target";
+import { TaskModel } from "@models/task";
+import { boardSchema } from "@schemas/validation/board.schema";
+import { responseHandler } from "@utils/common/responseHandler";
+import { Request, Response } from "express";
 
-export const getBoardListController = async (req: request, res: Response) => {
+export const getBoardListController = async (req: Request, res: Response) => {
   const boardList = await BoardModel.find({ user: req.user._id });
-  return responseHandler({
+  responseHandler({
     res,
     data: { boardList },
     responseCode: 200,
@@ -16,7 +15,7 @@ export const getBoardListController = async (req: request, res: Response) => {
   });
 };
 
-export const createBoardController = async (req: request, res: Response) => {
+export const createBoardController = async (req: Request, res: Response) => {
   const { name } = req.body;
 
   const checkIsExistBoard = await BoardModel.findOne({
@@ -31,7 +30,7 @@ export const createBoardController = async (req: request, res: Response) => {
     await BoardModel.create({ ...req.body, user: req.user._id })
   ).toObject();
 
-  return responseHandler({
+  responseHandler({
     res,
     data: createBoard,
     massage: "بورد شما با موفقیت ایجاد گردید",
@@ -40,7 +39,7 @@ export const createBoardController = async (req: request, res: Response) => {
   });
 };
 
-export const getBoardInfoController = async (req: request, res: Response) => {
+export const getBoardInfoController = async (req: Request, res: Response) => {
   const board = req.query.board;
   if (!board) {
     throw new Error("مشکل در ارسال آیدی بورد مورد نظر");
@@ -52,7 +51,7 @@ export const getBoardInfoController = async (req: request, res: Response) => {
     throw new Error("بورد موردنظر یافت نشد");
   }
 
-  return responseHandler({
+  responseHandler({
     res,
     data: findBoard,
     responseCode: 200,
@@ -60,7 +59,7 @@ export const getBoardInfoController = async (req: request, res: Response) => {
   });
 };
 
-export const updateBoardController = async (req: request, res: Response) => {
+export const updateBoardController = async (req: Request, res: Response) => {
   const board = req.params.id;
   const bodyData = req.body;
 
@@ -81,7 +80,7 @@ export const updateBoardController = async (req: request, res: Response) => {
       new: true,
       runValidators: true,
     });
-    return responseHandler({
+    responseHandler({
       res,
       data: findAndUpdate,
       massage: "بورد موردظر شما با موفقیت ویرایش گردید",
@@ -93,7 +92,7 @@ export const updateBoardController = async (req: request, res: Response) => {
   }
 };
 
-export const deleteBoardController = async (req: request, res: Response) => {
+export const deleteBoardController = async (req: Request, res: Response) => {
   const board = req.params.id;
 
   // nested delete
@@ -110,7 +109,7 @@ export const deleteBoardController = async (req: request, res: Response) => {
     throw new Error("خطا در حذف بورد مورد نظر");
   }
 
-  return responseHandler({
+  responseHandler({
     res,
     data: findAndDelete,
     massage: "بورد موردظر شما با موفقیت حذف گردید",

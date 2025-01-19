@@ -1,11 +1,8 @@
+import { responseHandler } from "@utils/common/responseHandler";
 import { Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { responseHandler } from "../../utils/common";
 
-export const verifyJwtToken = async (
-  jwtToken: string,
-  res: Response
-): Promise<string | null> => {
+export const verifyJwtToken = async (jwtToken: string, res: Response) => {
   try {
     const deCodedJwt = jwt.verify(
       jwtToken,

@@ -1,4 +1,4 @@
-import { IUser } from "interface/IUser";
+import { IUser } from "@interface/IUser";
 import { Schema } from "mongoose";
 
 export const userSchema = new Schema<IUser>({

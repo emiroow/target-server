@@ -1,13 +1,14 @@
-import { Router } from "express";
 import {
   createBoardController,
   deleteBoardController,
   getBoardInfoController,
   getBoardListController,
   updateBoardController,
-} from "../controllers/board.controllers";
-import { checkUserAuthentication } from "../middlewares/auth.middleware";
-import { boardValidation } from "../validations/board.validation";
+} from "@controllers/board.controllers";
+import { checkUserAuthentication } from "@middlewares/auth.middleware";
+import { boardValidation } from "@validations/board.validation";
+import { Router } from "express";
+require("express-async-errors");
 
 const router: Router = Router();
 

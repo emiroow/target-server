@@ -1,10 +1,9 @@
-import { Response } from "express";
-import { request } from "types/request";
-import { TaskModel } from "../models/task";
-import { responseHandler } from "../utils";
+import { TaskModel } from "@models/task";
+import { responseHandler } from "@utils/common/responseHandler";
+import { Request, Response } from "express";
 
 export const taskMiddleware = async (
-  req: request,
+  req: Request,
   res: Response,
   next: any
 ) => {
@@ -40,8 +39,6 @@ export const taskMiddleware = async (
           totalPendingTodo: 0,
         };
 
-        console.log(updatedData);
-
       default:
         break;
     }
@@ -53,7 +50,7 @@ export const taskMiddleware = async (
 
     // console.log(findAndUpdateTarget);
   } catch (error) {
-    return responseHandler({
+    responseHandler({
       res,
       data: error,
       massage: "خطا در سرویس !",

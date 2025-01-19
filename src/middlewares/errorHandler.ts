@@ -1,8 +1,10 @@
+import { responseHandler } from "@utils/common/responseHandler";
 import { NextFunction, Request, Response } from "express";
-import { responseHandler } from "../../src/utils/common/responseHandler";
 
-export const notFound = () => {
-  throw new Error("Page Not Found !");
+// Correct `notFound` middleware signature
+export const notFound = (req: Request, res: Response, next: NextFunction) => {
+  res.status(404);
+  throw new Error("Page Not Found!");
 };
 
 export const errorHandler = (
@@ -10,12 +12,14 @@ export const errorHandler = (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
-  return responseHandler({
+): void => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+
+  responseHandler({
     res,
-    responseCode: 500,
+    responseCode: statusCode,
     status: false,
     massage: err.message,
-    data: { stack: err.stack },
+    data: { stack: process.env.NODE_ENV === "production" ? null : err.stack },
   });
 };
