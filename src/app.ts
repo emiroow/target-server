@@ -9,7 +9,6 @@ import morgan from "morgan";
 import path from "path";
 import connectDB from "./config/mongoDB";
 import { apiRouter } from "./routes/api";
-
 dotenv.config();
 
 const app = express();
@@ -38,9 +37,15 @@ connectDB();
 // express
 app.use(morgan("dev"));
 
+const corsOptions = {
+  origin: "*", // Your React app's URL
+  methods: ["GET", "POST", "OPTIONS", "PUSH", "PUT"],
+  allowedHeaders: ["Content-Type", "Authorization", "authorization"],
+};
+
 // cors
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10mb" }));
